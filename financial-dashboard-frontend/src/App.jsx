@@ -1,14 +1,17 @@
+// src/App.jsx
 import React from 'react';
-import DashboardPage from './pages/DashboardPage'; // Import the DashboardPage
+import DashboardPage from './pages/DashboardPage';
+import './App.css'; // Import App-specific styles
+import './index.css'; // Import global styles (ensure this is present)
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header" style={{ textAlign: 'center', padding: '10px', background: '#f0f0f0', borderBottom: '1px solid #ccc' }}>
+      <header className="app-header">
         <h1>Financial Analytics Dashboard</h1>
       </header>
-      <main>
-        <DashboardPage /> {/* Render our main dashboard page */}
+      <main className="app-main">
+        <DashboardPage />
       </main>
     </div>
   );

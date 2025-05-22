@@ -14,21 +14,14 @@ import { format } from 'date-fns';
 
 const LineChartCard = ({ data, title, dataKey, tooltipLabel }) => {
     if (!data || data.length === 0) {
-        return <div style={{ textAlign: 'center', padding: '20px', color: '#555' }}>No data available for {title} chart.</div>;
+        return <div className="card text-center text-muted">No data available for {title} chart.</div>;
     }
 
-    // Filter to show a reasonable number of data points, e.g., last 90 days if more are available
-    const displayData = data.slice(-90); // Display last 90 days for clarity
+    const displayData = data.slice(-90);
 
     return (
-        <div style={{
-            background: '#fff',
-            padding: '20px',
-            borderRadius: '8px',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-            marginBottom: '20px'
-        }}>
-            <h4>{title}</h4>
+        <div className="card"> {/* Use card class */}
+            <h4 className="card-title">{title}</h4> {/* Use card-title class */}
             <ResponsiveContainer width="100%" height={300}>
                 <LineChart
                     data={displayData}
@@ -43,7 +36,7 @@ const LineChartCard = ({ data, title, dataKey, tooltipLabel }) => {
                     <XAxis
                         dataKey="date"
                         tickFormatter={(value) => format(new Date(value), 'MMM dd')}
-                        reversed={true} // Alpha Vantage data is newest first, so reverse XAxis
+                        reversed={true}
                     />
                     <YAxis domain={['auto', 'auto']} />
                     <Tooltip

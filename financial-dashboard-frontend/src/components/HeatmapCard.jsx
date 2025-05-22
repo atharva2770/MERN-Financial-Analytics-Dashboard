@@ -2,23 +2,19 @@
 import React from 'react';
 
 const getColorForChange = (changePercentage) => {
-    // Define color scale: Green for positive, Red for negative
-    // Normalize percentage to a 0-1 scale for color intensity
-    const normalizedChange = Math.min(1, Math.abs(changePercentage) / 5); // Assuming max change of 5% for intensity
-    const intensity = Math.round(normalizedChange * 255); // Scale to 0-255 RGB value
+    const normalizedChange = Math.min(1, Math.abs(changePercentage) / 5);
+    const intensity = Math.round(normalizedChange * 255);
 
     if (changePercentage > 0) {
-        return `rgb(${255 - intensity}, 255, ${255 - intensity})`; // Lighter green for smaller changes, darker for larger
+        return `rgb(${255 - intensity}, 255, ${255 - intensity})`;
     } else if (changePercentage < 0) {
-        return `rgb(255, ${255 - intensity}, ${255 - intensity})`; // Lighter red for smaller changes, darker for larger
+        return `rgb(255, ${255 - intensity}, ${255 - intensity})`;
     } else {
-        return '#f0f0f0'; // Gray for no change
+        return '#f0f0f0';
     }
 };
 
 const HeatmapCard = ({ data, title }) => {
-    // Combine top gainers and top losers for the heatmap
-    // Prioritize gainers then losers, ensuring unique tickers
     const combinedData = [];
     const seenTickers = new Set();
 
@@ -40,59 +36,28 @@ const HeatmapCard = ({ data, title }) => {
         });
     }
 
-    // Sort by absolute change percentage to put most significant movers first
     combinedData.sort((a, b) => Math.abs(b.changePercentage) - Math.abs(a.changePercentage));
 
     if (combinedData.length === 0) {
         return (
-            <div style={{
-                background: '#fff',
-                padding: '20px',
-                borderRadius: '8px',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                marginBottom: '20px',
-                textAlign: 'center',
-                color: '#555',
-                minHeight: '200px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}>
+            <div className="card text-center text-muted" style={{ minHeight: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 No data available for {title || "this heatmap"}.
             </div>
         );
     }
 
     return (
-        <div style={{
-            background: '#fff',
-            padding: '20px',
-            borderRadius: '8px',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-            marginBottom: '20px'
-        }}>
-            {title && <h4 style={{ marginBottom: '15px' }}>{title}</h4>}
-            <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))', // Responsive grid
-                gap: '10px'
-            }}>
-                {combinedData.slice(0, 50).map(item => ( // Limit to top 50 movers
+        <div className="card"> {/* Use card class */}
+            <h4 className="card-title">{title}</h4> {/* Use card-title class */}
+            <div className="heatmap-grid"> {/* Use heatmap-grid class */}
+                {combinedData.slice(0, 50).map(item => (
                     <div
                         key={item.ticker}
-                        style={{
-                            backgroundColor: getColorForChange(item.changePercentage),
-                            padding: '10px',
-                            borderRadius: '5px',
-                            textAlign: 'center',
-                            fontWeight: 'bold',
-                            color: '#333',
-                            fontSize: '0.9em',
-                            boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
-                        }}
+                        className="heatmap-block" // Use heatmap-block class
+                        style={{ backgroundColor: getColorForChange(item.changePercentage) }}
                     >
                         <div>{item.ticker}</div>
-                        <div style={{ fontSize: '0.8em', color: item.changePercentage > 0 ? '#1a751a' : '#cc0000' }}>
+                        <div className="heatmap-block-change" style={{ color: item.changePercentage > 0 ? '#1a751a' : '#cc0000' }}>
                             {item.changePercentage.toFixed(2)}%
                         </div>
                     </div>

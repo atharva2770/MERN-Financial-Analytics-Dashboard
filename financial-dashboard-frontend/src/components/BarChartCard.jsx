@@ -13,25 +13,17 @@ import {
 
 const BarChartCard = ({ data, title, barKey, nameKey, barColor }) => {
     if (!data || data.length === 0) {
-        return <div style={{ textAlign: 'center', padding: '20px', color: '#555' }}>No data available for {title} chart.</div>;
+        return <div className="card text-center text-muted">No data available for {title} chart.</div>;
     }
 
-    // Ensure data is in a suitable format for the bar chart
-    // For gainers/losers, data should be an array of objects with ticker and changePercentage
     const formattedData = data.map(item => ({
         ...item,
-        [barKey]: parseFloat(item[barKey].toFixed(2)) // Ensure percentage is a number
+        [barKey]: parseFloat(item[barKey].toFixed(2))
     }));
 
     return (
-        <div style={{
-            background: '#fff',
-            padding: '20px',
-            borderRadius: '8px',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-            marginBottom: '20px'
-        }}>
-            <h4>{title}</h4>
+        <div className="card"> {/* Use card class */}
+            <h4 className="card-title">{title}</h4> {/* Use card-title class */}
             <ResponsiveContainer width="100%" height={300}>
                 <BarChart
                     data={formattedData}
